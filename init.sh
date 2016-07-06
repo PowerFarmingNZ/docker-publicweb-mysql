@@ -1,3 +1,4 @@
+#!/bin/bash
 #Build DB
 #/d/projects/publicweb/publicweb-mysql-backup
 IMAGENAME=publicweb-mysql
@@ -10,6 +11,7 @@ docker volume create --name $SQLSTORAGE
 
     #-v $IMAGENAME-backup:/docker-entrypoint-initdb.d \
     #-v //d/projects/publicweb/publicweb-mysql-backup:/docker-entrypoint-initdb.d \
+echo Hit Ctrl+C once this is all set up
 docker run --rm --name $IMAGENAME -P \
     -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT \
     -e MYSQL_USER=$MYSQL_USER \
