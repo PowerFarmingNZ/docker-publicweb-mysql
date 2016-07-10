@@ -1,7 +1,6 @@
 FROM mysql:5.5
 MAINTAINER Gavin Jones <gjones@powerfarming.co.nz>
 
-#Why do these leak through?
 ENV         DB_ENV_MYSQL_ROOT_PASSWORD ""
 ENV         DB_ENV_MYSQL_USER ""
 ENV         DB_ENV_MYSQL_PASSWORD ""
