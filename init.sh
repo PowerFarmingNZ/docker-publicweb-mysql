@@ -23,7 +23,7 @@ SQLSTORAGE=publicwebinfra_$IMAGENAME-storage
 BACKUPSTORAGE=publicwebinfra_$IMAGENAME-backup
 MYSQL_ROOT=devpass
 GITURI="http://docker-ci:GEuQDKt3oTJsDVFu@git-azure.powerfarming.co.nz/gavin.jones/publicweb-mysql-backup.git"
-LOCALBACKUP=$(abspath ../publicweb-mysql-backup)
+LOCALBACKUP=$(abspath ../../publicweb-mysql-backup)
 
 docker stop $IMAGENAME
 docker rm $IMAGENAME
@@ -38,7 +38,14 @@ docker volume create --name $BACKUPSTORAGE
 
 #Importer
 echo "Checking $LOCALBACKUP"
-if [ -d "$LOCALBACKUP" ] 
+BACKUPFILES=$(ls -A $LOCALBACKUP)
+if [ -z "$BACKUPFILES" ];
+then
+    echo $LOCALBACKUP was an empty folder, using GIT
+    $LOCALBACKUP=""
+fi
+
+if [ -d "$LOCALBACKUP"  ] 
 then
     #We have a local copy, use it
     echo "Using local backup from $LOCALBACKUP"
@@ -61,11 +68,12 @@ fi
     #-v //d/projects/publicweb/publicweb-mysql-backup:/docker-entrypoint-initdb.d \
 #echo Hit Ctrl+C once this is all set up
 #echo Using BACKUP: $BACKUPVOL
+#    -p "3306:3306" \
+
 ./build.sh 
 docker run -d --name $IMAGENAME-import  \
     -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT \
     -e MYSQL_USER=$MYSQL_USER \
-    -p "3306:3306" \
     -v $BACKUPSTORAGE://docker-entrypoint-initdb.d \
     -v $SQLSTORAGE://var/lib/mysql \
     gavinjonespf/publicweb-mysql 
