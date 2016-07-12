@@ -19,11 +19,11 @@ function abspath {
 }
 
 IMAGENAME=publicweb-mysql
-SQLSTORAGE=publicwebinfra_$IMAGENAME-storage
-BACKUPSTORAGE=publicwebinfra_$IMAGENAME-backup
+SQLSTORAGE=$IMAGENAME-storage
+BACKUPSTORAGE=$IMAGENAME-backup
 MYSQL_ROOT=devpass
 GITURI="http://docker-ci:GEuQDKt3oTJsDVFu@git-azure.powerfarming.co.nz/gavin.jones/publicweb-mysql-backup.git"
-LOCALBACKUP=$(abspath ../../publicweb-mysql-backup)
+LOCALBACKUP=$(abspath $(pwd)/../publicweb-mysql-backup)
 
 docker stop $IMAGENAME
 docker rm $IMAGENAME
